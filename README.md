@@ -1,12 +1,13 @@
-# Getting Started with Create React App
+# Getting Started with React-Tailwind-Firebase Starter.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It allows React developpers to start a new project with a pre-configured pack setup. <br />
+It uses [TailwindCSS](https://tailwindcss.com) and [Firebase](https://firebase.google.com) to develop the UI faster and communicate with a database easier. 
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,7 +15,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+### `npm run test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -44,6 +45,10 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+To learn TailwindCSS, checkout the [TailwindCSS documentation](https://tailwindcss.com/docs/installation).
+
+To use Firebase, checkout the [Firebase documentation](https://firebase.google.com).
 
 ### Code Splitting
 
