@@ -23,6 +23,9 @@ function Signup() {
         .then((userCredential) => {
             navigate('/');
         }).catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+                return alert('A user is already registered with this email');
+            }
             console.error(error.code, error.message);
         });
     };

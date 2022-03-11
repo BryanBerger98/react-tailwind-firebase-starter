@@ -20,6 +20,12 @@ function Signin() {
         .then((userCredential) => {
             navigate('/');
         }).catch(error => {
+            if (error.code === 'auth/user-not-found') {
+                return alert('Wrong email or password');
+            }
+            if (error.code === 'auth/wrong-password') {
+                return alert('Wrong email or password');
+            }
             console.error(error.code, error.message);
         });
     };
