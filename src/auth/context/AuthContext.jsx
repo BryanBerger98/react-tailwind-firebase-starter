@@ -63,6 +63,17 @@ const AuthContextProvider = props => {
         }
     }
 
+    const updateCurrentUserProfilePhoto = async (photoURL) => {
+        try {
+            await updateProfile(auth.currentUser, {photoURL});
+            setCurrentUser({...auth.currentUser});
+            console.log('PROFILE PHOTO UPDATED', auth.currentUser);
+            return auth.currentUser;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     return(
         <AuthContext.Provider value={{
             currentUser,
@@ -70,7 +81,8 @@ const AuthContextProvider = props => {
             signinUserWithEmailAndPassword,
             signoutUser,
             updateCurrentUserName,
-            updateCurrentUserEmail
+            updateCurrentUserEmail,
+            updateCurrentUserProfilePhoto
         }}>
             {props.children}
         </AuthContext.Provider>

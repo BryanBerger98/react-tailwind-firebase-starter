@@ -1,29 +1,54 @@
+import { useContext, useEffect } from 'react';
 import { FiCamera, FiLoader } from 'react-icons/fi';
-import FilesContextProvider from '../../files/context/FilesContext';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { FilesContext } from '../../files/context/FilesContext';
 
 function EditProfilePhoto() {
 
+    const filesContext = useContext(FilesContext);
+    const uploadingFile = filesContext.uploadingFile;
+
+    const authContext = useContext(AuthContext);
+    const currentUser = authContext.currentUser;
+
     const handleFileInputChange = ($event) => {
-        console.log('FILE', $event);
+        console.log('hey');
+        if ($event.target.files && $event.target.files.length !== 0) {
+            filesContext.uploadFile($event.target.files[0], 'images/users')
+            .then(status => {
+                authContext.updateCurrentUserProfilePhoto(status.downloadURL)
+                .catch(console.error);
+            }).catch(console.error);
+        }
     }
 
     return(
-        <FilesContextProvider>
-            <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-6 h-full">
-                <h3 className="text-md font-medium flex items-center"><FiCamera /><span className="ml-1">Photo</span></h3>
-                <div className="h-44 w-44 my-5 mx-auto bg-slate-800 drop-shadow-lg rounded-full flex items-center justify-center hover:cursor-pointer group relative text-2xl">
+        <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-6 h-full">
+            <h3 className="text-md font-medium flex items-center"><FiCamera /><span className="ml-1">Photo</span></h3>
+            <div className="h-44 w-44 my-5 mx-auto bg-slate-800 drop-shadow-lg rounded-full flex items-center justify-center group relative text-2xl">
+                {
+                    (!currentUser) || (currentUser && !currentUser.photoURL) || (currentUser && currentUser.photoURL && currentUser.photoURL === '') ?
                     <FiCamera />
-                    {/* <img *ngIf="!photoUploading && currentUser.photoURL && currentUser.photoURL !== ''" [src]="currentUser.photoURL" [alt]="currentUser.displayName + 'profile photo'" className="w-full rounded-full"> */}
-                    <label htmlFor="editUserProfilePhoto" className="absolute inset-0 bg-slate-700 rounded-full hidden group-hover:flex group-hover:text-slate-50 hover:cursor-pointer items-center justify-center">
-                        <FiCamera />
-                    </label>
-                    <input type="file" id="editUserProfilePhoto" hidden accept="image/png, image/jpeg, image/gif" onChange={handleFileInputChange} />
-                    {/* <div className="absolute inset-0 bg-slate-50 flex rounded-full">
-                        <FiLoader />
-                    </div> */}
-                </div>
+                    : null
+                }
+                {
+                    currentUser && currentUser.photoURL && currentUser.photoURL !== '' ?
+                    <img src={currentUser.photoURL} alt={currentUser.dislayName + ' profile photo'} className="w-full rounded-full" />
+                    : null
+                }
+                <label htmlFor="editUserProfilePhoto" className="absolute inset-0 bg-slate-700/75 rounded-full hidden group-hover:flex group-hover:cursor-pointer group-hover:text-slate-50 hover:cursor-pointer items-center justify-center">
+                    <FiCamera />
+                </label>
+                <input type="file" id="editUserProfilePhoto" hidden accept="image/png, image/jpeg, image/gif" onChange={handleFileInputChange} />
+                {
+                    uploadingFile.status === 'running' ?
+                    <div className="absolute inset-0 bg-slate-800 flex rounded-full">
+                        <FiLoader className='text-3xl m-auto animate-spin-slow' />
+                    </div>
+                    : null
+                }
             </div>
-        </FilesContextProvider>
+        </div>
     );
 
 }

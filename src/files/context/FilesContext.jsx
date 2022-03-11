@@ -14,8 +14,9 @@ const FilesContextProvider = props => {
         downloadURL: null
     });
 
-    const uploadFile = async (file, storagePath) => {
-        const metadata = {
+    const uploadFile = (file, storagePath) => {
+        return new Promise((resolve, reject) => {
+            const metadata = {
                 contentType: file.type,
                 customMetadata: {
                     size: file.size.toString(),
@@ -25,24 +26,28 @@ const FilesContextProvider = props => {
             const storageRef = ref(storage, storagePath);
             const uploadTask = uploadBytesResumable(storageRef, file, metadata);
             uploadTask.on('state_changed', 
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadingFile({
-                    status: snapshot.state,
-                    progress,
-                    error: null,
-                    downloadURL: null
-                });
-            },
-            (error) => {
-                setUploadingFile({...uploadingFile, error});
-            }, 
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setUploadingFile({...uploadFile, status:'over',  downloadURL});
-                });
-            }
-        );
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadingFile({
+                        ...uploadingFile,
+                        status: snapshot.state,
+                        progress,
+                        error: null,
+                        downloadURL: null
+                    });
+                },
+                (error) => {
+                    setUploadingFile({...uploadingFile, error});
+                    reject(error);
+                }, 
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        setUploadingFile({...uploadingFile, status:'over',  downloadURL});
+                        resolve({...uploadingFile, status:'over',  downloadURL});
+                    });
+                }
+            );
+        });
     }
 
 
