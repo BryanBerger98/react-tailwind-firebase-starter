@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../firebase-config';
 
@@ -59,6 +59,39 @@ const AuthContextProvider = props => {
             setCurrentUser({...auth.currentUser});
             return auth.currentUser;
         } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    const updateCurrentUserProfilePhoto = async (photoURL) => {
+        try {
+            await updateProfile(auth.currentUser, {photoURL});
+            setCurrentUser({...auth.currentUser});
+            return auth.currentUser;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const updateCurrentUserPassword = async (currentPassword, newPassword) => {
+        try {
+            await signInWithEmailAndPassword(auth, auth.currentUser.email, currentPassword);
+            await updatePassword(auth.currentUser, newPassword);
+            setCurrentUser({...auth.currentUser});
+            return auth.currentUser;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const deleteCurrentUserAccount = async (password) => {
+        try {
+            await signInWithEmailAndPassword(auth, auth.currentUser.email, password);
+            await deleteUser(auth.currentUser);
+            setCurrentUser(null);
+            return;
+        } catch (error) {
             throw error;
         }
     }
@@ -70,7 +103,10 @@ const AuthContextProvider = props => {
             signinUserWithEmailAndPassword,
             signoutUser,
             updateCurrentUserName,
-            updateCurrentUserEmail
+            updateCurrentUserEmail,
+            updateCurrentUserProfilePhoto,
+            updateCurrentUserPassword,
+            deleteCurrentUserAccount
         }}>
             {props.children}
         </AuthContext.Provider>
