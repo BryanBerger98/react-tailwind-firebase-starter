@@ -20,7 +20,7 @@ function Header() {
     }
 
     return(
-        <nav className="flex p-5 bg-slate-900 drop-shadow-lg text-slate-200 fixed inset-x-0">
+        <nav className="flex p-5 bg-slate-900 drop-shadow-lg text-slate-200 fixed inset-x-0 z-50">
             <Link to='/' className='font-bold'>React - Tailwind | Firebase</Link>
             <ul className="list-none flex ml-auto gap-4 text-sm items-center">
                 <li>
