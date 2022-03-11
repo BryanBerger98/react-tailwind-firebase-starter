@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiLogIn, FiHome } from 'react-icons/fi';
 import Dropdown from './Dropdown';
 import { FiChevronDown, FiUser, FiLogOut } from 'react-icons/fi';
@@ -8,8 +8,16 @@ import { AuthContext } from '../../auth/context/AuthContext';
 function Header() {
 
     const authContext = useContext(AuthContext);
-
     const currentUser = authContext.currentUser;
+
+    const navigate = useNavigate();
+
+    const onSignout = () => {
+        authContext.signoutUser()
+        .then(() => {
+            navigate('/signin');
+        }).catch(console.error);
+    }
 
     return(
         <nav className="flex p-5 bg-slate-900 drop-shadow-lg text-slate-200 fixed inset-x-0">
@@ -30,7 +38,7 @@ function Header() {
                                     </Link>
                                 </li>
                                 <li className='hover:cursor-pointer hover:bg-slate-600'>
-                                    <button className='px-5 py-1 flex items-center'>
+                                    <button className='px-5 py-1 flex items-center' type='button' onClick={onSignout}>
                                         <FiLogOut /><span className="ml-1">Logout</span>
                                     </button>
                                 </li>
@@ -40,7 +48,7 @@ function Header() {
                     :
                     <>
                         <li>
-                        <Link className='hover:text-slate-50 flex' to='/signin'><FiLogIn className='my-auto mr-1' /> Sign in</Link>
+                            <Link className='hover:text-slate-50 flex' to='/signin'><FiLogIn className='my-auto mr-1' /> Sign in</Link>
                         </li>
                         <li>
                             <Link className='px-5 py-3 bg-sky-500 text-slate-50 hover:bg-sky-400 rounded-lg font-semibold' to='/signup'>Signup</Link>
