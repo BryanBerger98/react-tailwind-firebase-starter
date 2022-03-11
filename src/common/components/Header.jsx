@@ -33,7 +33,7 @@ function Header() {
                             <button className='hover:text-slate-50 flex items-center'><span className='mr-1'>Account</span><FiChevronDown /></button>
                             <ul className='list-none flex-col rounded-xl bg-slate-700 absolute right-0 mt-1 py-3 w-40 border border-slate-800'>
                                 <li className='hover:cursor-pointer hover:bg-slate-600'>
-                                    <Link to='/' className='flex items-center w-full px-5 py-1'>
+                                    <Link to='/account' className='flex items-center w-full px-5 py-1'>
                                         <FiUser /><span className="ml-1">Profile</span>
                                     </Link>
                                 </li>
