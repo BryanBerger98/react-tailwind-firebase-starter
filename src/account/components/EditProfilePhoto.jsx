@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { FiCamera, FiLoader } from 'react-icons/fi';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { FilesContext } from '../../files/context/FilesContext';
@@ -12,13 +12,26 @@ function EditProfilePhoto() {
     const currentUser = authContext.currentUser;
 
     const handleFileInputChange = ($event) => {
-        console.log('hey');
         if ($event.target.files && $event.target.files.length !== 0) {
-            filesContext.uploadFile($event.target.files[0], 'images/users')
-            .then(status => {
-                authContext.updateCurrentUserProfilePhoto(status.downloadURL)
-                .catch(console.error);
-            }).catch(console.error);
+            if (currentUser && currentUser.photoURL && currentUser.photoURL !== '') {
+                filesContext.deleteFile(currentUser.photoURL)
+                .then(() => {
+                    uploadPhotoAndUpdateCurrentUser($event.target.files[0]).catch(console.error);
+                }).catch(console.error);
+            } else {
+                uploadPhotoAndUpdateCurrentUser($event.target.files[0]).catch(console.error);
+            }
+            
+        }
+    }
+
+    const uploadPhotoAndUpdateCurrentUser = async (file) => {
+        try {
+            const status = await filesContext.uploadFile(file, 'images/users/');
+            await authContext.updateCurrentUserProfilePhoto(status.downloadURL);
+            return status;
+        } catch (error) {
+            throw error;
         }
     }
 

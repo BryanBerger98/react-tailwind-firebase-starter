@@ -1,4 +1,4 @@
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
 import React, { useState } from 'react';
 import { storage } from '../../firebase-config';
 
@@ -23,7 +23,7 @@ const FilesContextProvider = props => {
                     lastModified: new Date(file.lastModified).toISOString()
                 }
             };
-            const storageRef = ref(storage, storagePath);
+            const storageRef = ref(storage, storagePath + file.name);
             const uploadTask = uploadBytesResumable(storageRef, file, metadata);
             uploadTask.on('state_changed', 
                 (snapshot) => {
@@ -50,11 +50,25 @@ const FilesContextProvider = props => {
         });
     }
 
+    const deleteFile = async (fileUrl) => {
+        try {
+            const fileRef = ref(storage, fileUrl);
+            await deleteObject(fileRef);
+            return;
+        } catch (error) {
+            if (error.code === 'storage/object-not-found') {
+                return;
+            }
+            throw error;
+        }
+    }
+
 
     return(
         <FilesContext.Provider value={{
             uploadingFile,
-            uploadFile
+            uploadFile,
+            deleteFile
         }}>
             {props.children}
         </FilesContext.Provider>
