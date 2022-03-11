@@ -3,6 +3,24 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It allows React developpers to start a new project with a pre-configured pack setup. <br />
 It uses [TailwindCSS](https://tailwindcss.com) and [Firebase](https://firebase.google.com) to develop the UI faster and communicate with a database easier. 
 
+### Other libraries used
+* [Formik](https://formik.org): to manage forms
+* [Yup](https://github.com/jquense/yup): to validate forms
+* [React Icons](https://react-icons.github.io/react-icons): A large library of icons for React
+
+## Environment
+
+In root directory, add a `.env` file with the following structure:
+```dosini
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECTID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDERID=
+REACT_APP_FIREBASE_APPID=
+```
+Put inside each variable the corresponding value of your Firebase config.
+
 ## Available Scripts
 
 In the project directory, you can run:
