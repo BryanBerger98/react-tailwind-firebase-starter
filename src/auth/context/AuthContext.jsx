@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import { auth } from '../../firebase-config';
 
@@ -85,6 +85,17 @@ const AuthContextProvider = props => {
         }
     }
 
+    const deleteCurrentUserAccount = async (password) => {
+        try {
+            await signInWithEmailAndPassword(auth, auth.currentUser.email, password);
+            await deleteUser(auth.currentUser);
+            setCurrentUser(null);
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     return(
         <AuthContext.Provider value={{
             currentUser,
@@ -94,7 +105,8 @@ const AuthContextProvider = props => {
             updateCurrentUserName,
             updateCurrentUserEmail,
             updateCurrentUserProfilePhoto,
-            updateCurrentUserPassword
+            updateCurrentUserPassword,
+            deleteCurrentUserAccount
         }}>
             {props.children}
         </AuthContext.Provider>

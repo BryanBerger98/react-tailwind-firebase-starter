@@ -25,7 +25,7 @@ function EditProfileInfos() {
             <h3 className="text-md font-medium flex items-center mb-5"><FiList /><span className="ml-1">Informations</span></h3>
             <Formik
                 initialValues={{
-                    username: currentUser ? currentUser.displayName : ''
+                    username: currentUser && currentUser.displayName ? currentUser.displayName : ''
                 }}
                 validationSchema={profileInfosFormSchema}
                 onSubmit={handleSubmit}

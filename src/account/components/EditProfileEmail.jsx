@@ -34,7 +34,7 @@ function EditProfileEmail() {
 
     useEffect(() => {
         setProfileEmailFormValues({
-            email: currentUser ? currentUser.email : '',
+            email: currentUser && currentUser.email ? currentUser.email : '',
             password: ''
         });
     }, [currentUser]);
