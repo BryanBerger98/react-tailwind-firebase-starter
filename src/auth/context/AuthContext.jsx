@@ -59,6 +59,7 @@ const AuthContextProvider = props => {
             setCurrentUser({...auth.currentUser});
             return auth.currentUser;
         } catch (error) {
+            console.error(error);
             throw error;
         }
     }
