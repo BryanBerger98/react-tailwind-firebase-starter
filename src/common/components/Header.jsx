@@ -10,7 +10,7 @@ function Header() {
                     <Link className='hover:underline' to='/'>Home</Link>
                 </li>
                 <li>
-                    <Link className='hover:underline' to='/signin'>Signin</Link>
+                    <Link className='hover:underline' to='/signin'>Sign in</Link>
                 </li>
                 <li>
                     <Link className='px-5 py-3 bg-sky-500 hover:bg-sky-400 rounded-lg font-semibold' to='/signup'>Signup</Link>
