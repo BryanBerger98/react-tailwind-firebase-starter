@@ -8,7 +8,7 @@ import ProfileDangerZone from '../components/ProfileDangerZone';
 function Account() {
 
     return(
-        <div className="container mx-auto py-28">
+        <div className="container mx-auto pt-28 pb-14">
             {/* <h1 className="font-semibold text-slate-50 text-xl mb-5">Account</h1> */}
             <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 mb-5">
                 <h2 className="text-lg font-medium flex text-slate-50 items-center"><FiUser /><span className="ml-1">Account</span></h2>
