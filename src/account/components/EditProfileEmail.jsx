@@ -23,7 +23,7 @@ function EditProfileEmail() {
         authContext.updateCurrentUserEmail(values.email, values.password)
         .catch(error => {
             if (error.code === 'auth/wrong-password') {
-                return alert('Wrong email or password');
+                return alert('Wrong password');
             }
             if (error.code === 'auth/email-already-in-use') {
                 return alert('A user is already registered with this email');
