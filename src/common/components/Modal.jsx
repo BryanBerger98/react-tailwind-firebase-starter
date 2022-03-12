@@ -48,7 +48,7 @@ function Modal({children, modalName}) {
 
     return (
         <div className={`transition ease-out duration-300 fixed inset-0 z-50 bg-slate-900/75 flex items-center justify-center opacity-100 ${hiddenBackground ? 'hidden' : ''} ${hiddenModal ? 'opacity-0' : ''}`} onClick={onClickModalBackground}>
-             <div className={`transition ease-out duration-300 bg-slate-800 rounded-xl drop-shadow-lg ${hiddenModal ? '-translate-y-10' : ''}`}>
+             <div className={`transition ease-out duration-300 bg-slate-800 mx-2 md:mx-0 rounded-xl drop-shadow-lg ${hiddenModal ? '-translate-y-10' : ''}`}>
                 {children}
             </div>
         </div>

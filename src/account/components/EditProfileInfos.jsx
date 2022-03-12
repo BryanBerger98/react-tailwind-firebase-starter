@@ -21,7 +21,7 @@ function EditProfileInfos() {
     };
 
     return(
-        <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-6 h-full flex flex-col">
+        <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-12 md:col-span-6 h-full flex flex-col">
             <h3 className="text-md font-medium flex items-center mb-5"><FiList /><span className="ml-1">Informations</span></h3>
             <Formik
                 initialValues={{
