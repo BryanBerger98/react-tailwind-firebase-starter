@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FiAtSign, FiSave, FiAlertCircle } from 'react-icons/fi';
+import { FiAtSign, FiSave, FiAlertCircle, FiCheck } from 'react-icons/fi';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +8,7 @@ function EditProfileEmail() {
 
     const authContext = useContext(AuthContext);
     const currentUser = authContext.currentUser;
+    const [savedMessage, setSavedMessage] = useState(null);
 
     const [profileEmailFormValues, setProfileEmailFormValues] = useState({
         email: currentUser ? currentUser.email : '',
@@ -21,6 +22,12 @@ function EditProfileEmail() {
 
     const handleSubmit = async (values) => {
         authContext.updateCurrentUserEmail(values.email, values.password)
+        .then(() => {
+            setSavedMessage('Saved');
+            setTimeout(() => {
+                setSavedMessage(null);
+            }, 5000);
+        })
         .catch(error => {
             if (error.code === 'auth/wrong-password') {
                 return alert('Wrong password');
@@ -41,7 +48,12 @@ function EditProfileEmail() {
 
     return(
         <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-12 md:col-span-6 h-full flex flex-col">
-            <h3 className="text-md font-medium flex items-center mb-5"><FiAtSign /><span className="ml-1">Email address</span></h3>
+            <h3 className="text-base font-medium flex items-center mb-5">
+                <FiAtSign /><span className="ml-1">Email address</span>
+                {
+                    savedMessage ? <p className='ml-auto text-green-500 flex items-center'><FiCheck /> <span className='ml-1'>{savedMessage}</span></p> : null
+                }
+            </h3>
             <Formik
                 initialValues={profileEmailFormValues}
                 validationSchema={profileEmailFormSchema}

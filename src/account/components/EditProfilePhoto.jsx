@@ -37,7 +37,7 @@ function EditProfilePhoto() {
 
     return(
         <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-12 md:col-span-6 h-full">
-            <h3 className="text-md font-medium flex items-center"><FiCamera /><span className="ml-1">Photo</span></h3>
+            <h3 className="text-base font-medium flex items-center"><FiCamera /><span className="ml-1">Photo</span></h3>
             <div className="h-44 w-44 my-5 mx-auto bg-slate-800 drop-shadow-lg rounded-full flex items-center justify-center group relative text-2xl">
                 {
                     (!currentUser) || (currentUser && !currentUser.photoURL) || (currentUser && currentUser.photoURL && currentUser.photoURL === '') ?
