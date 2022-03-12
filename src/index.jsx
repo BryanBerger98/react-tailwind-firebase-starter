@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from './auth/context/AuthContext';
+import ToastsContextProvider from './common/context/ToastsContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <App />
-    </AuthContextProvider>
+    <ToastsContextProvider>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </ToastsContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
