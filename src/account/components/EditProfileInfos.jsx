@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { FiList, FiSave, FiAlertCircle } from 'react-icons/fi';
+import { useContext, useState } from 'react';
+import { FiList, FiSave, FiAlertCircle, FiCheck } from 'react-icons/fi';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +8,7 @@ function EditProfileInfos() {
 
     const authContext = useContext(AuthContext);
     const currentUser = authContext.currentUser;
+    const [savedMessage, setSavedMessage] = useState(null);
 
     const profileInfosFormSchema = Yup.object().shape({
         username: Yup.string().required('Required')
@@ -15,6 +16,12 @@ function EditProfileInfos() {
 
     const handleSubmit = async (values) => {
         authContext.updateCurrentUserName(values.username)
+        .then(() => {
+            setSavedMessage('Saved');
+            setTimeout(() => {
+                setSavedMessage(null);
+            }, 5000);
+        })
         .catch(error => {
             console.error(error.code, error.message);
         });
@@ -22,7 +29,12 @@ function EditProfileInfos() {
 
     return(
         <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-12 md:col-span-6 h-full flex flex-col">
-            <h3 className="text-md font-medium flex items-center mb-5"><FiList /><span className="ml-1">Informations</span></h3>
+            <h3 className="text-base font-medium flex items-center mb-5">
+                <FiList /><span className="ml-1">Informations</span>
+                {
+                    savedMessage ? <p className='ml-auto text-green-500 flex items-center'><FiCheck /> <span className='ml-1'>{savedMessage}</span></p> : null
+                }
+            </h3>
             <Formik
                 initialValues={{
                     username: currentUser && currentUser.displayName ? currentUser.displayName : ''
