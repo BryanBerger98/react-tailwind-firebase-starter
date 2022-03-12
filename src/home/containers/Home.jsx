@@ -4,8 +4,8 @@ import logo from '../../logo.svg';
 function Home() {
 
     return(
-        <div className="Home">
-            <div className="Home-container bg-slate-800 h-screen">
+        <div className="Home h-screen text-center flex">
+            <div className="Home-container px-2 m-auto">
                 <img src={logo} className="Home-logo" alt="logo" />
                 <p className='text-3xl'>
                     Welcome on <code>react-tailwind-firebase-starter</code>.
