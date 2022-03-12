@@ -21,16 +21,25 @@ function Header() {
 
     return(
         <nav className="flex p-5 bg-slate-900 drop-shadow-lg text-slate-200 fixed inset-x-0 z-50">
-            <Link to='/' className='font-bold'>React - Tailwind | Firebase</Link>
+            <Link to='/' className='font-bold text-sm md:text-md'>React - Tailwind | Firebase</Link>
             <ul className="list-none flex ml-auto gap-4 text-sm items-center">
                 <li>
-                    <Link className='hover:text-slate-50 flex' to='/'><FiHome className='my-auto mr-1' />Home</Link>
+                    <Link className='hover:text-slate-50 flex' to='/'>
+                        <FiHome className='my-auto mr-0 md:mr-1' />
+                        <span className='hidden md:inline'>Home</span>
+                    </Link>
                 </li>
                 {
                     currentUser ?
                     <li>
                         <Dropdown id='headerAccountDropdown'>
-                            <button className='hover:text-slate-50 flex items-center'><span className='mr-1'>Account</span><FiChevronDown /></button>
+                            <button className='hover:text-slate-50 flex items-center'>
+                                <span className='hidden md:inline mr-1'>Account</span>
+                                <span className='border rounded-full flex md:hidden mr-1'>
+                                    <FiUser className='m-auto'/>
+                                </span>
+                                <FiChevronDown />    
+                            </button>
                             <ul className='list-none flex-col rounded-xl bg-slate-700 absolute right-0 mt-1 py-3 w-40 border border-slate-800'>
                                 <li className='hover:cursor-pointer hover:bg-slate-600'>
                                     <Link to='/account' className='flex items-center w-full px-5 py-1'>
