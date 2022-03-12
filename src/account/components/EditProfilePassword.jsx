@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { FiKey, FiSave, FiAlertCircle } from 'react-icons/fi';
+import { FiKey, FiSave, FiAlertCircle, FiCheck } from 'react-icons/fi';
 import { AuthContext } from '../../auth/context/AuthContext';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
@@ -13,6 +13,8 @@ function EditProfilePassword() {
         newPassword: '',
         confirmNewPassword: ''
     });
+
+    const [savedMessage, setSavedMessage] = useState(null);
 
     const profilePasswordFormSchema = Yup.object().shape({
         currentPassword: Yup.string().min(8, 'At least 8 characters').required('Required'),
@@ -33,6 +35,10 @@ function EditProfilePassword() {
                 newPassword: '',
                 confirmNewPassword: ''
             });
+            setSavedMessage('Saved');
+            setTimeout(() => {
+                setSavedMessage(null);
+            }, 5000);
         })
         .catch(error => {
             if (error.code === 'auth/wrong-password') {
@@ -47,7 +53,12 @@ function EditProfilePassword() {
 
     return(
         <div className="bg-slate-900 drop-shadow-xl rounded-xl p-5 col-span-12 md:col-span-6 h-full flex flex-col">
-            <h3 className="text-md font-medium flex items-center mb-5"><FiKey /><span className="ml-1">Password</span></h3>
+            <h3 className="text-base font-medium flex items-center mb-5">
+                <FiKey /><span className="ml-1">Password</span>
+                {
+                    savedMessage ? <p className='ml-auto text-green-500 flex items-center'><FiCheck /> <span className='ml-1'>{savedMessage}</span></p> : null
+                }
+            </h3>
             <Formik
                 initialValues={profilePasswordFormValues}
                 validationSchema={profilePasswordFormSchema}
