@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { FiKey, FiSave, FiAlertCircle, FiCheck } from 'react-icons/fi';
-import { AuthContext } from '../../auth/context/AuthContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 
 function EditProfilePassword() {
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
 
     const [profilePasswordFormValues, setProfilePasswordFormValues] = useState({
         currentPassword: '',

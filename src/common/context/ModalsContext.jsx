@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-const ModalsContext = React.createContext();
+const ModalsContext = createContext();
 export { ModalsContext };
+
+const useModalsContext = () => {
+    const context = useContext(ModalsContext);
+    if (context === undefined) {
+        throw new Error('useModalsContext was used outside of its Provider');
+    }
+    return context;
+};
+export { useModalsContext };
 
 const ModalsContextProvider = props => {
 

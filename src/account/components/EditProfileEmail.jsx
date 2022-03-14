@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiAtSign, FiSave, FiAlertCircle, FiCheck } from 'react-icons/fi';
-import { AuthContext } from '../../auth/context/AuthContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 function EditProfileEmail() {
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const currentUser = authContext.currentUser;
     const [savedMessage, setSavedMessage] = useState(null);
 

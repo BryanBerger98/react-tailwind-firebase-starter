@@ -1,9 +1,18 @@
 import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
-import React, { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { auth } from '../../firebase-config';
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 export { AuthContext };
+
+const useAuthContext = () => {
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuthContext was used outside of its Provider');
+    }
+    return context;
+};
+export { useAuthContext };
 
 const AuthContextProvider = props => {
 

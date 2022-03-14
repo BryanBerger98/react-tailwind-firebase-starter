@@ -1,9 +1,18 @@
 import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
-import React, { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { storage } from '../../firebase-config';
 
-const FilesContext = React.createContext();
+const FilesContext = createContext();
 export { FilesContext };
+
+const useFilesContext = () => {
+    const context = useContext(FilesContext);
+    if (context === undefined) {
+        throw new Error('useFilesContext was used outside of its Provider');
+    }
+    return context;
+};
+export { useFilesContext };
 
 const FilesContextProvider = props => {
 
