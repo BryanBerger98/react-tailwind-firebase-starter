@@ -1,5 +1,5 @@
 import { getDownloadURL, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { storage } from '../../firebase-config';
 
 const FilesContext = createContext();
@@ -23,7 +23,7 @@ const FilesContextProvider = props => {
         downloadURL: null
     });
 
-    const uploadFile = (file, storagePath) => {
+    const uploadFile = useCallback((file, storagePath) => {
         return new Promise((resolve, reject) => {
             const metadata = {
                 contentType: file.type,
@@ -57,9 +57,9 @@ const FilesContextProvider = props => {
                 }
             );
         });
-    }
+    }, [uploadingFile]);
 
-    const deleteFile = async (fileUrl) => {
+    const deleteFile = useCallback(async (fileUrl) => {
         try {
             const fileRef = ref(storage, fileUrl);
             await deleteObject(fileRef);
@@ -70,15 +70,16 @@ const FilesContextProvider = props => {
             }
             throw error;
         }
-    }
+    }, []);
 
+    const contextValues = useMemo(() => ({
+        uploadingFile,
+        uploadFile,
+        deleteFile
+    }), [uploadingFile, uploadFile, deleteFile]);
 
     return(
-        <FilesContext.Provider value={{
-            uploadingFile,
-            uploadFile,
-            deleteFile
-        }}>
+        <FilesContext.Provider value={contextValues}>
             {props.children}
         </FilesContext.Provider>
     );

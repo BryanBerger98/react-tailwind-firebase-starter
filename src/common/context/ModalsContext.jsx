@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 const ModalsContext = createContext();
 export { ModalsContext };
@@ -16,20 +16,26 @@ const ModalsContextProvider = props => {
 
     const [currentModal, setCurrentModal] = useState(null);
 
-    const openModal = (modalName) => {
+    const openModal = useCallback((modalName) => {
         setCurrentModal(modalName);
-    }
+    }, []);
 
-    const dismissAll = () => {
+    const dismissAll = useCallback(() => {
         setCurrentModal(null);
-    }
+    }, []);
+
+    const contextValues = useMemo(() => ({
+        currentModal,
+        openModal,
+        dismissAll
+    }), [
+        currentModal,
+        openModal,
+        dismissAll
+    ]);
 
     return(
-        <ModalsContext.Provider value={{
-            currentModal,
-            openModal,
-            dismissAll
-        }}>
+        <ModalsContext.Provider value={contextValues}>
             {props.children}
         </ModalsContext.Provider>
     );
