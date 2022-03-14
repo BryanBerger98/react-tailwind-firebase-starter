@@ -2,12 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiLogIn, FiHome } from 'react-icons/fi';
 import Dropdown from './Dropdown';
 import { FiChevronDown, FiUser, FiLogOut } from 'react-icons/fi';
-import { useContext } from 'react';
-import { AuthContext } from '../../auth/context/AuthContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
 
 function Header() {
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const currentUser = authContext.currentUser;
 
     const navigate = useNavigate();

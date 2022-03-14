@@ -1,18 +1,18 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { FiAlertTriangle, FiUserMinus, FiX, FiAlertCircle } from 'react-icons/fi';
 import Modal from '../../common/components/Modal';
-import { ModalsContext } from '../../common/context/ModalsContext';
+import { useModalsContext } from '../../common/context/ModalsContext';
 import * as Yup from 'yup';
-import { AuthContext } from '../../auth/context/AuthContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { FilesContext } from '../../files/context/FilesContext';
+import { useFilesContext } from '../../files/context/FilesContext';
 
 function ProfileDangerZone() {
 
-    const modalsContext = useContext(ModalsContext);
-    const filesContext = useContext(FilesContext);
-    const authContext = useContext(AuthContext);
+    const modalsContext = useModalsContext();
+    const filesContext = useFilesContext();
+    const authContext = useAuthContext();
     const currentUser = authContext.currentUser;
     const navigate = useNavigate();
 

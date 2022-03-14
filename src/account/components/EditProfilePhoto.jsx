@@ -1,14 +1,13 @@
-import { useContext } from 'react';
 import { FiCamera, FiLoader } from 'react-icons/fi';
-import { AuthContext } from '../../auth/context/AuthContext';
-import { FilesContext } from '../../files/context/FilesContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
+import { useFilesContext } from '../../files/context/FilesContext';
 
 function EditProfilePhoto() {
 
-    const filesContext = useContext(FilesContext);
+    const filesContext = useFilesContext();
     const uploadingFile = filesContext.uploadingFile;
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const currentUser = authContext.currentUser;
 
     const handleFileInputChange = ($event) => {
