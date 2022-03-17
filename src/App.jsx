@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './home/containers/Home';
 import React from 'react';
+import AuthGuard from './auth/guards/AuthGuard';
 
 const Signup = React.lazy(() => import('./auth/containers/Signup'));
 const Signin = React.lazy(() => import('./auth/containers/Signin'));
@@ -16,14 +17,18 @@ function App() {
         <Route path="/" element={ <Layout /> }>
           <Route index element={<Home />} />
           <Route path="/signup" element={
-            <React.Suspense fallback={<>...</>}>
-              <Signup />
-            </React.Suspense>
+            <AuthGuard mustBeAuthenticated={false}>
+              <React.Suspense fallback={<>...</>}>
+                <Signup />
+              </React.Suspense>
+            </AuthGuard>
           } />
           <Route path="/signin" element={
-            <React.Suspense fallback={<>...</>}>
-              <Signin />
-            </React.Suspense>
+            <AuthGuard mustBeAuthenticated={false}>
+              <React.Suspense fallback={<>...</>}>
+                <Signin />
+              </React.Suspense>
+            </AuthGuard>
           } />
           <Route path="/forgot-password" element={
             <React.Suspense fallback={<>...</>}>
@@ -36,9 +41,11 @@ function App() {
             </React.Suspense>
           } />
           <Route path="/account" element={
-            <React.Suspense fallback={<>...</>}>
-              <Account />
-            </React.Suspense>
+            <AuthGuard mustBeAuthenticated={true}>
+              <React.Suspense fallback={<>...</>}>
+                <Account />
+              </React.Suspense>
+            </AuthGuard>
           } />
           <Route path="*" element={<Home />} />
         </Route>
