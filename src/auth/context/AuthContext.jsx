@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
+import { applyActionCode, confirmPasswordReset, createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { auth } from '../../firebase-config';
 
@@ -45,6 +45,7 @@ const AuthContextProvider = props => {
     const signoutUser = useCallback(async () => {
         try {
             await signOut(auth);
+            setCurrentUser(null);
             return;
         } catch (error) {
             throw error;
@@ -105,6 +106,38 @@ const AuthContextProvider = props => {
         }
     }, []);
 
+    const verifyEmail = useCallback(async (actionCode) => {
+        try {
+            await applyActionCode(auth, actionCode);
+            if (!currentUser) {
+                throw new Error('No user logged in');
+            }
+            await auth.currentUser.reload();
+            setCurrentUser({...auth.currentUser});
+            return auth.currentUser;
+        } catch (error) {
+            throw error;
+        }
+    }, [currentUser]);
+    
+    const sendUserPasswordResetEmail = useCallback(async (email) => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }, []);
+
+    const resetPassword = useCallback(async (actionCode, newPassword) => {
+        try {
+            await confirmPasswordReset(auth, actionCode, newPassword);
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }, []);
+
     const contextValues = useMemo(() => ({
         currentUser,
         signupUserWithEmailAndPassword,
@@ -114,7 +147,10 @@ const AuthContextProvider = props => {
         updateCurrentUserEmail,
         updateCurrentUserProfilePhoto,
         updateCurrentUserPassword,
-        deleteCurrentUserAccount
+        deleteCurrentUserAccount,
+        verifyEmail,
+        sendUserPasswordResetEmail,
+        resetPassword
     }), [
         currentUser,
         signupUserWithEmailAndPassword,
@@ -124,7 +160,10 @@ const AuthContextProvider = props => {
         updateCurrentUserEmail,
         updateCurrentUserProfilePhoto,
         updateCurrentUserPassword,
-        deleteCurrentUserAccount
+        deleteCurrentUserAccount,
+        verifyEmail,
+        sendUserPasswordResetEmail,
+        resetPassword
     ]);
 
     return(
