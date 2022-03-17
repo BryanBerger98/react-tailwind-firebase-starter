@@ -1,4 +1,4 @@
-import { applyActionCode, confirmPasswordReset, createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
+import { applyActionCode, confirmPasswordReset, createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { auth } from '../../firebase-config';
 
@@ -106,6 +106,15 @@ const AuthContextProvider = props => {
         }
     }, []);
 
+    const sendUserVerificationEmail = useCallback(async () => {
+        try {
+            await sendEmailVerification(auth.currentUser);
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }, []);
+
     const verifyEmail = useCallback(async (actionCode) => {
         try {
             await applyActionCode(auth, actionCode);
@@ -150,7 +159,8 @@ const AuthContextProvider = props => {
         deleteCurrentUserAccount,
         verifyEmail,
         sendUserPasswordResetEmail,
-        resetPassword
+        resetPassword,
+        sendUserVerificationEmail
     }), [
         currentUser,
         signupUserWithEmailAndPassword,
@@ -163,7 +173,8 @@ const AuthContextProvider = props => {
         deleteCurrentUserAccount,
         verifyEmail,
         sendUserPasswordResetEmail,
-        resetPassword
+        resetPassword,
+        sendUserVerificationEmail
     ]);
 
     return(
