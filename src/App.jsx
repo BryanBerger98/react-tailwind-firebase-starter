@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './home/containers/Home';
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import AuthGuard from './auth/guards/AuthGuard';
 
-const Signup = React.lazy(() => import('./auth/containers/Signup'));
-const Signin = React.lazy(() => import('./auth/containers/Signin'));
-const ForgotPassword = React.lazy(() => import('./auth/containers/ForgotPassword'));
-const AuthActions = React.lazy(() => import('./auth/containers/AuthActions'));
-const Account = React.lazy(() => import('./account/containers/Account'));
+const Signup = lazy(() => import('./auth/containers/Signup'));
+const Signin = lazy(() => import('./auth/containers/Signin'));
+const ForgotPassword = lazy(() => import('./auth/containers/ForgotPassword'));
+const AuthActions = lazy(() => import('./auth/containers/AuthActions'));
+const Account = lazy(() => import('./account/containers/Account'));
 
 function App() {
   return (
@@ -18,33 +18,33 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/signup" element={
             <AuthGuard mustBeAuthenticated={false}>
-              <React.Suspense fallback={<>...</>}>
+              <Suspense fallback={<>...</>}>
                 <Signup />
-              </React.Suspense>
+              </Suspense>
             </AuthGuard>
           } />
           <Route path="/signin" element={
             <AuthGuard mustBeAuthenticated={false}>
-              <React.Suspense fallback={<>...</>}>
+              <Suspense fallback={<>...</>}>
                 <Signin />
-              </React.Suspense>
+              </Suspense>
             </AuthGuard>
           } />
           <Route path="/forgot-password" element={
-            <React.Suspense fallback={<>...</>}>
+            <Suspense fallback={<>...</>}>
               <ForgotPassword />
-            </React.Suspense>
+            </Suspense>
           } />
           <Route path="/auth-actions" element={
-            <React.Suspense fallback={<>...</>}>
+            <Suspense fallback={<>...</>}>
               <AuthActions />
-            </React.Suspense>
+            </Suspense>
           } />
           <Route path="/account" element={
             <AuthGuard mustBeAuthenticated={true}>
-              <React.Suspense fallback={<>...</>}>
+              <Suspense fallback={<>...</>}>
                 <Account />
-              </React.Suspense>
+              </Suspense>
             </AuthGuard>
           } />
           <Route path="*" element={<Home />} />
