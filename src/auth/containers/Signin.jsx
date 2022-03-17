@@ -1,13 +1,12 @@
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FiAlertCircle } from 'react-icons/fi';
 
 function Signin() {
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const navigate = useNavigate();
 
     const SigninFormSchema = Yup.object().shape({
@@ -58,6 +57,9 @@ function Signin() {
                                 <div className="flex mt-10">
                                     <button type="submit" id="signinSubmitButton" className="px-5 py-3 bg-sky-500 text-slate-50 hover:bg-sky-400 rounded-lg font-semibold mx-auto">Sign in</button>
                                 </div>
+                                <p className="text-center my-5">
+                                <Link to='/forgot-password' className='font-semibold hover:text-slate-50'>Forgot password ?</Link>
+                                </p>
                                 <p className='text-center mt-5 text-slate-400'>
                                     <span>You don't have an account ?</span>
                                     <Link to='/signup' className='font-semibold ml-2 hover:text-slate-50'>Signup</Link>
