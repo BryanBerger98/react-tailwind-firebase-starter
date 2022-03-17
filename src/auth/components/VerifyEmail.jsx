@@ -23,6 +23,8 @@ function VerifyEmail({oobCode}) {
               }
               console.error(error);
             });
+        } else {
+            alert('Invalid email verification link');
         }
     }, [oobCode, authContext, navigate]);
 

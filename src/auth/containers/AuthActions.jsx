@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import ResetPassword from '../components/ResetPassword';
 import VerifyEmail from '../components/VerifyEmail';
 
 function AuthActions() {
@@ -12,6 +13,11 @@ function AuthActions() {
             {
                 query.get('action') === 'verify-email' ?
                 <VerifyEmail oobCode={query.get('oobCode')} />
+                : null
+            }
+            {
+                query.get('action') === 'reset-password' ?
+                <ResetPassword oobCode={query.get('oobCode')} />
                 : null
             }
         </div>

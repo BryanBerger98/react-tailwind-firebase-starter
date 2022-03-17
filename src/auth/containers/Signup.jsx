@@ -1,13 +1,12 @@
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { FiAlertCircle } from 'react-icons/fi';
 
 function Signup() {
 
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const navigate = useNavigate();
 
     const SignupFormSchema = Yup.object().shape({

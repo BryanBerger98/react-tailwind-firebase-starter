@@ -5,8 +5,9 @@ import React from 'react';
 
 const Signup = React.lazy(() => import('./auth/containers/Signup'));
 const Signin = React.lazy(() => import('./auth/containers/Signin'));
-const Account = React.lazy(() => import('./account/containers/Account'));
+const ForgotPassword = React.lazy(() => import('./auth/containers/ForgotPassword'));
 const AuthActions = React.lazy(() => import('./auth/containers/AuthActions'));
+const Account = React.lazy(() => import('./account/containers/Account'));
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
           <Route path="/signin" element={
             <React.Suspense fallback={<>...</>}>
               <Signin />
+            </React.Suspense>
+          } />
+          <Route path="/forgot-password" element={
+            <React.Suspense fallback={<>...</>}>
+              <ForgotPassword />
             </React.Suspense>
           } />
           <Route path="/auth-actions" element={
